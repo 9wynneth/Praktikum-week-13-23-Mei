@@ -27,13 +27,20 @@ namespace Praktikum_week_13_23_Mei
         DataTable dtNationality = new DataTable();
         DataTable dtTeam = new DataTable();
         DataTable dtTeamNumber = new DataTable();
+        DataTable dtCaptainID = new DataTable();
+        DataTable dtNewCaptain = new DataTable();
 
         public string oldPlayerId = "";
         public string oldPlayerName = "";
         public string oldBirthdate = "";
         public string oldNationality = "";
         public string oldTeam = "";
+        public string oldTeamID = "";
         public string oldTeamNumber = "";
+        public string newCaptain = "";
+        public string teamLama = "";
+
+
         int posisiSekarang = 0;
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -41,7 +48,12 @@ namespace Praktikum_week_13_23_Mei
             sqlCommand = new MySqlCommand(sqlQuery, sqlConnect);
             sqlAdapter = new MySqlDataAdapter(sqlCommand);
             sqlAdapter.Fill(dtPlayer);
-            DataPemain(0);
+
+            sqlQuery = "  SELECT t.captain_id, p.player_id FROM team t, player p where t.team_id=p.team_id;";
+            sqlCommand = new MySqlCommand(sqlQuery, sqlConnect);
+            sqlAdapter = new MySqlDataAdapter(sqlCommand);
+            sqlAdapter.Fill(dtCaptainID);
+            
 
             sqlQuery = "SELECT nationality_id, nation FROM nationality";
             sqlCommand = new MySqlCommand(sqlQuery, sqlConnect);
@@ -61,6 +73,9 @@ namespace Praktikum_week_13_23_Mei
             cBox_team.ValueMember = "team_id";
             cBox_team.DisplayMember = "team_name";
 
+
+            DataPemain(0);
+
         }
  
         public void DataPemain(int DataKe)
@@ -71,12 +86,15 @@ namespace Praktikum_week_13_23_Mei
             cBox_nationality.Text = dtPlayer.Rows[DataKe][3].ToString();
             cBox_team.Text = dtPlayer.Rows[DataKe][4].ToString();
             numericUpDownTeamNumber.Text = dtPlayer.Rows[DataKe][5].ToString();
-            
+            lbl_captain.Text = dtCaptainID.Rows[DataKe][0].ToString();
+
             oldPlayerId = tBox_ID.Text;
             oldPlayerName =tBox_Nama.Text;
             oldBirthdate = DTP_birthdate.Value.ToString("yyyy-MM-dd");
             oldNationality = cBox_nationality.Text;
             oldTeam = cBox_team.Text;
+            oldTeamID = cBox_team.SelectedValue.ToString();
+            //MessageBox.Show(oldTeamID);
             oldTeamNumber = numericUpDownTeamNumber.Value.ToString();
         }
 
@@ -132,6 +150,15 @@ namespace Praktikum_week_13_23_Mei
                 sqlConnect.Close();
                 MessageBox.Show("Data berhasil di save");
             }
+            else if (oldPlayerId == lbl_captain.Text)
+            {
+                sqlQuery = $"UPDATE team SET captain_id='{newCaptain}' WHERE player_id='{teamLama}'";
+                sqlConnect.Open();
+                sqlCommand = new MySqlCommand(sqlQuery, sqlConnect);
+                sqlCommand.ExecuteNonQuery();
+                sqlConnect.Close();
+                MessageBox.Show($"Captain team {oldTeam} telah dipindah");
+            }
            
         }
 
@@ -148,6 +175,15 @@ namespace Praktikum_week_13_23_Mei
         private void cBox_team_SelectedIndexChanged(object sender, EventArgs e)
         {
             TeamNumber();
+            if (oldPlayerId==lbl_captain.Text)
+            {
+                sqlQuery = $"select p.player_id, t.team_id, MIN(p.birthdate) from player p, team t where p.team_id=t.team_id and t.team_id='{oldTeamID}'";
+                sqlCommand = new MySqlCommand(sqlQuery, sqlConnect);
+                sqlAdapter = new MySqlDataAdapter(sqlCommand);
+                sqlAdapter.Fill(dtNewCaptain);
+                newCaptain = dtNewCaptain.Rows[0][0].ToString();
+                teamLama = dtNewCaptain.Rows[0][1].ToString();
+            }
         }
 
         private void TeamNumber()

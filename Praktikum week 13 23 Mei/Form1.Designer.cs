@@ -48,6 +48,7 @@ namespace Praktikum_week_13_23_Mei
             this.lbl_status = new System.Windows.Forms.Label();
             this.cBox_nationality = new System.Windows.Forms.ComboBox();
             this.numericUpDownTeamNumber = new System.Windows.Forms.NumericUpDown();
+            this.lbl_captain = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTeamNumber)).BeginInit();
             this.SuspendLayout();
             // 
@@ -233,11 +234,21 @@ namespace Praktikum_week_13_23_Mei
             this.numericUpDownTeamNumber.TabIndex = 85;
             this.numericUpDownTeamNumber.ValueChanged += new System.EventHandler(this.numericUpDownTeamNumber_ValueChanged);
             // 
+            // lbl_captain
+            // 
+            this.lbl_captain.AutoSize = true;
+            this.lbl_captain.Location = new System.Drawing.Point(414, 127);
+            this.lbl_captain.Name = "lbl_captain";
+            this.lbl_captain.Size = new System.Drawing.Size(51, 20);
+            this.lbl_captain.TabIndex = 86;
+            this.lbl_captain.Text = "label7";
+            // 
             // FormPlayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(589, 450);
+            this.Controls.Add(this.lbl_captain);
             this.Controls.Add(this.numericUpDownTeamNumber);
             this.Controls.Add(this.cBox_nationality);
             this.Controls.Add(this.lbl_status);
@@ -287,6 +298,7 @@ namespace Praktikum_week_13_23_Mei
         private System.Windows.Forms.Label lbl_status;
         private System.Windows.Forms.ComboBox cBox_nationality;
         private System.Windows.Forms.NumericUpDown numericUpDownTeamNumber;
+        private System.Windows.Forms.Label lbl_captain;
     }
 }
 
