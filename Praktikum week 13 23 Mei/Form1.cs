@@ -88,6 +88,8 @@ namespace Praktikum_week_13_23_Mei
             numericUpDownTeamNumber.Text = dtPlayer.Rows[DataKe][5].ToString();
             lbl_captain.Text = dtCaptainID.Rows[DataKe][0].ToString();
 
+            posisiSekarang = DataKe;
+
             oldPlayerId = tBox_ID.Text;
             oldPlayerName =tBox_Nama.Text;
             oldBirthdate = DTP_birthdate.Value.ToString("yyyy-MM-dd");
